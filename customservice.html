@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Create Angular custom service</title>
+<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular-sanitize.min.js"></script>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
+
+<script>
+var app = angular.module("first_module", ['ngSanitize']);
+app.controller("first_controller", function($scope, check_service) {
+		var students = [
+    		{ 'name': 'john', 'class1': '6', 'fee': '45000', 'school': 'amrita', 'point': '3' },
+    		{ 'name': 'ahmed', 'class1': '7', 'fee': '55000', 'school': 'delhi public', 'point': '6' },
+    		{ 'name': 'ram', 'class1': '7', 'fee': '65000', 'school': 'trinity', 'point': '4' },
+    		{ 'name': 'krish!na', 'class1': '8', 'fee': '75000', 'school': 'narayana', 'point': '1' },
+    		{ 'name': 'shahil', 'class1': '9', 'fee': '85000', 'school': 'sri chaitanya', 'point': '7' },
+    		{ 'name': 'vam@shi', 'class1': '10', 'fee': '95000', 'school': 'FItJEE', 'point': '8' }
+    		];
+    		$scope.students = students;
+    		$scope.err = check_service.err($scope.students);
+});
+app.factory("check_service", function() {
+		return {
+			err: function(input_val) {
+				var error = "";
+    			var arr = ['@', '$', '#', '%', '!', '^'];
+    			var flag = true;
+    			for(y in input_val ) {
+    				console.log(input_val[y].name);
+    				for(x in arr ) {
+    					if(input_val[y].name.indexOf(arr[x]) != -1 ) {
+    						var flag = false;
+    						error += "Name <b>" + input_val[y].name + "</b> got misplaced. <br>" ;
+    					}
+    				}
+    			}
+    			console.log(flag);
+    			if(flag == true) {
+    				error = " There is no error found";
+    			}
+    			return error;
+			}
+		}
+});
+</script>
+</head>
+<body ng-app="first_module">
+<div ng-controller="first_controller">
+	<div class="container">
+	<table  class="table table-hover" style="width:40%;">
+	<thead>
+		<tr>
+			<th> S.No </th>
+			<th>Name</th>
+			<th>class</th>
+			<th>fee</th>
+			<th>school</th>
+			<th>point</th>
+		</tr>
+	</thead>
+	<tbody>
+		<tr ng-repeat="student in students">
+			<td> {{$index + 1}} </td>
+			<td> <p> {{ student.name| uppercase }}</p> </td>
+			<td> {{student.class1 }} </td>
+			<td> {{ student.fee | number: 3 }} </td>
+			<td> {{student.school}} </td>
+			<td> {{student.point}} </td>
+		</tr>
+	</tbody>
+</table>
+	<p ng-bind-html="err"></p>
+</div>
+</div>
+</body>
+</html>
