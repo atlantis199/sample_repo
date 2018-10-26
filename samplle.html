@@ -1,0 +1,53 @@
+
+<!DOCTYPE html>
+<html>
+<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular.min.js"></script>
+<script>
+var some = angular.module("first_module", [])
+				.controller("first_controller", function($scope) {
+    	var students = [
+    		{ 'name': 'john', 'class': '6', 'fee': '45000', 'school': 'amrita', 'point': '3' },
+    		{ 'name': 'ahmed', 'class': '7', 'fee': '55000', 'school': 'delhi public', 'point': '6' },
+    		{ 'name': 'ram', 'class': '7', 'fee': '65000', 'school': 'trinity', 'point': '4' },
+    		{ 'name': 'krishna', 'class': '8', 'fee': '75000', 'school': 'narayana', 'point': '1' },
+    		{ 'name': 'shahil', 'class': '9', 'fee': '85000', 'school': 'sri chaitanya', 'point': '7' },
+    		{ 'name': 'vamshi', 'class': '10', 'fee': '95000', 'school': 'FItJEE', 'point': '8' },
+    		];
+    		// this finds the values according to the name field
+    	$scope.students = students;
+});
+</script>
+
+<body  ng-app="first_module">
+
+<div ng-controller="first_controller">
+<table border="1" style="width: 40%;">
+	<thead>
+		<tr>
+			<th> S.No </th>
+			<th>Name</th>
+			<th>class</th>
+			<th>fee</th>
+			<th>school</th>
+			<th>point</th>
+		</tr>
+	</thead>
+	<tbody>
+		<tr ng-repeat="student in students | filter: filt:false">
+			<td> {{$index + 1}} </td>
+			<td> {{ student.name| uppercase }} </td>
+			<td> {{student.class}} </td>
+			<td> {{ student.fee | number: 3 }} </td>
+			<td> {{student.school}} </td>
+			<td> {{student.point}} </td>
+		</tr>
+	</tbody>
+</table>
+<br />
+
+find the value: 
+<!-- replacing filt.name with filt can make the search operation on all the field in the table -->
+<input type="text" ng-model="filt.name">
+</div>
+</body>
+</html>
